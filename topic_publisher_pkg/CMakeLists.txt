@@ -9,6 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -22,9 +23,17 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 add_executable(simple_publisher_node src/simple_topic_publisher.cpp)
+add_executable(move_robot_node src/move_robot.cpp)
+
 ament_target_dependencies(simple_publisher_node rclcpp std_msgs)
+ament_target_dependencies(move_robot_node rclcpp std_msgs geometry_msgs)
+
 install(TARGETS
    simple_publisher_node
+   DESTINATION lib/${PROJECT_NAME}
+ )
+ install(TARGETS
+   move_robot_node
    DESTINATION lib/${PROJECT_NAME}
  )
  # Install launch files.
