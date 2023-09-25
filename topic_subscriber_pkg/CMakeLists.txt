@@ -9,6 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -23,13 +24,21 @@ if(BUILD_TESTING)
 endif()
 
 add_executable(simple_subscriber_node src/simple_topic_subscriber.cpp)
+add_executable(sub_odom_node src/sub_odom.cpp)
+
+
 ament_target_dependencies(simple_subscriber_node rclcpp std_msgs)
+ament_target_dependencies(sub_odom_node rclcpp std_msgs nav_msgs)
 
 install(TARGETS
    simple_subscriber_node
    DESTINATION lib/${PROJECT_NAME}
  )
 
+install(TARGETS
+   sub_odom_node
+   DESTINATION lib/${PROJECT_NAME}
+ )
 # Install launch files.
 install(DIRECTORY
   launch
