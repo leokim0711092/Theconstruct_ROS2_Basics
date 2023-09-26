@@ -47,6 +47,8 @@ ament_target_dependencies(executor_example_4_node rclcpp nav_msgs)
 add_executable(executor_example_4_singlethreaded_node src/executor_example_4_singlethreaded.cpp)
 ament_target_dependencies(executor_example_4_singlethreaded_node rclcpp nav_msgs)
 
+add_executable(executor_example_5_node src/executor_example_5.cpp)
+ament_target_dependencies(executor_example_5_node rclcpp)
 # Install
 install(TARGETS
    executor_example_1_node
@@ -54,6 +56,8 @@ install(TARGETS
    executor_example_3_node
    executor_example_4_node
    executor_example_4_singlethreaded_node
+   executor_example_5_node
+
    DESTINATION lib/${PROJECT_NAME}
  )
 ament_package()
