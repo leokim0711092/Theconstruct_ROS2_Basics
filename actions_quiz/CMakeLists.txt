@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(custom_interfaces)
+project(actions_quiz)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -8,15 +8,9 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(rosidl_default_generators REQUIRED)
-find_package(action_msgs REQUIRED)
-
-rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/Age.msg"
-  "srv/MyCustomServiceMessage.srv"
-  "action/Move.action"
-)
+find_package(rclcpp_action REQUIRED)
+find_package(actions_quiz_msg REQUIRED)
+find_package(nav_msgs REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -30,5 +24,22 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+add_executable(action_client_node src/action_client.cpp)
+ament_target_dependencies(action_client_node rclcpp rclcpp_action actions_quiz_msg nav_msgs)
+
+add_executable(action_server_node src/action_server.cpp)
+ament_target_dependencies(action_server_node rclcpp rclcpp_action actions_quiz_msg nav_msgs)
+
+install(TARGETS
+   action_client_node
+   action_server_node
+   DESTINATION lib/${PROJECT_NAME}
+ )
+
+# Install launch files
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}/
+)
 
 ament_package()
